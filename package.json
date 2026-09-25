@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "NODE_ENV=production node index.js",
-    "dev": "NODE_ENV=development nodemon index.js"
+    "dev": "NODE_ENV=development node --watch index.js"
   },
   "author": "shadz95",
   "license": "MIT",
@@ -24,21 +24,12 @@
   ],
   "homepage": "https://github.com/shadez95/steam-id-bot",
   "engines": {
-    "node": "8.x",
-    "npm": "*"
+    "node": ">=18"
   },
   "dependencies": {
-    "bufferutil": "^3.0.5",
-    "discord.js": "^11.3.2",
-    "dotenv": "^6.0.0",
-    "erlpack": "github:discordapp/erlpack",
-    "node-fetch": "^2.1.2",
-    "uws": "^9.148.0",
-    "wait-until": "0.0.2",
-    "winston": "^3.0.0",
-    "xmldom": "^0.1.27"
-  },
-  "devDependencies": {
-    "nodemon": "^1.17.5"
+    "@xmldom/xmldom": "^0.9.12",
+    "discord.js": "^14.27.0",
+    "dotenv": "^18.0.3",
+    "winston": "^3.19.0"
   }
 }
