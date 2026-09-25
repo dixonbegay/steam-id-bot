@@ -22,3 +22,6 @@ No privileged gateway intents are required.
 
 ## Development
 `npm run dev`
+
+## Testing
+`npm test`

@@ -6,6 +6,7 @@ require("dotenv").config({ quiet: true });
 
 const logger = winston.createLogger({
   level: "info",
+  silent: process.env.NODE_ENV === "test",
   transports: [
     new winston.transports.Console({
       format: winston.format.combine(
@@ -114,19 +115,32 @@ client.on(Events.GuildDelete, guild => {
   logger.info(`Total guilds: ${client.guilds.cache.size}`);
 });
 
-client.on(Events.MessageCreate, async message => {
+async function handleMessage(message, botUser) {
   if (message.author.bot) return;
 
   try {
     if (message.channel.type === ChannelType.DM) {
       await handleDirectMessage(message);
-    } else if (message.mentions.has(client.user, { ignoreEveryone: true, ignoreRoles: true, ignoreRepliedUser: true })) {
+    } else if (message.mentions.has(botUser, { ignoreEveryone: true, ignoreRoles: true, ignoreRepliedUser: true })) {
       await message.channel.send("You must DM me your steam profile URL to receive your steam id");
     }
   } catch (error) {
     // Most likely missing permissions to send in the channel
     logger.error(`Failed to handle message: ${error.stack || error}`);
   }
-});
+}
 
-client.login(process.env.TOKEN);
+client.on(Events.MessageCreate, message => handleMessage(message, client.user));
+
+if (require.main === module) {
+  client.login(process.env.TOKEN);
+}
+
+module.exports = {
+  HELP_TEXT,
+  ProfileNotFoundError,
+  parseProfileUrl,
+  resolveVanity,
+  handleDirectMessage,
+  handleMessage
+};
